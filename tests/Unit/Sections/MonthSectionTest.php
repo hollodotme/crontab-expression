@@ -58,15 +58,15 @@ final class MonthSectionTest extends TestCase
 			],
 			# Lists
 			[
-				'sectionValue' => '1,3,10',
+				'sectionValue' => '1,MAR,10',
 				'dateString'   => '2017-01-12 00:12:21',
 			],
 			[
-				'sectionValue' => '1,3,10',
+				'sectionValue' => '1,3,OCT',
 				'dateString'   => '2017-03-12 03:22:21',
 			],
 			[
-				'sectionValue' => '01,3,10',
+				'sectionValue' => 'JAN,MAR,OCT',
 				'dateString'   => '2017-10-12 22:44:21',
 			],
 			# Ranges
@@ -104,7 +104,7 @@ final class MonthSectionTest extends TestCase
 				'dateString'   => '2017-08-12 13:33:21',
 			],
 			[
-				'sectionValue' => '1-4,6-11',
+				'sectionValue' => 'JAN-APR,6-11',
 				'dateString'   => '2017-11-12 19:44:21',
 			],
 			# Ranges with steps
