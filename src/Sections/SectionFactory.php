@@ -14,35 +14,25 @@ use hollodotme\CrontabExpression\Interfaces\ChecksSectionDueDate;
  */
 final class SectionFactory
 {
-	private const SECTION_MINUTE       = 0;
-
-	private const SECTION_HOUR         = 1;
-
-	private const SECTION_DAY_OF_MONTH = 2;
-
-	private const SECTION_MONTH        = 3;
-
-	private const SECTION_DAY_OF_WEEK  = 4;
-
 	public function getSection( int $sectionType, string $sectionValue ) : ChecksSectionDueDate
 	{
 		$value = strtoupper( $sectionValue );
-		
+
 		switch ( $sectionType )
 		{
-			case self::SECTION_MINUTE:
+			case SectionType::SECTION_MINUTE:
 				return new MinuteSection( $value );
 
-			case self::SECTION_HOUR:
+			case SectionType::SECTION_HOUR:
 				return new HourSection( $value );
 
-			case self::SECTION_DAY_OF_MONTH:
+			case SectionType::SECTION_DAY_OF_MONTH:
 				return new DayOfMonthSection( $value );
 
-			case self::SECTION_MONTH:
+			case SectionType::SECTION_MONTH:
 				return new MonthSection( $value );
 
-			case self::SECTION_DAY_OF_WEEK:
+			case SectionType::SECTION_DAY_OF_WEEK:
 				return new DayOfWeekSection( $value );
 
 			default:
