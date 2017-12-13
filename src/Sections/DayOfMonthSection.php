@@ -76,8 +76,14 @@ final class DayOfMonthSection extends AbstractSection
 		$checkDate    = new \DateTime( sprintf( '%s-%02d', $dateTime->format( 'Y-m' ), $day ) );
 		$checkWeekDay = (int)$checkDate->format( 'w' );
 
+		# If day is Sunday and last of month, check for previous friday
+		if ($checkWeekDay === 0 && (int)$checkDate->format('t') === (int)$day)
+		{
+			$checkDate->modify( 'previous friday' );
+		}
+
 		# On Sunday or on first of month, check for next monday
-		if ( $checkWeekDay === 0 || (int)$day === 1 )
+		elseif ( $checkWeekDay === 0 || (int)$day === 1 )
 		{
 			$checkDate->modify( 'next monday' );
 		}

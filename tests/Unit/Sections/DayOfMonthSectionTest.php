@@ -154,6 +154,12 @@ final class DayOfMonthSectionTest extends TestCase
 				# This is a Monday
 				'dateString'   => '2017-07-03 14:36:21',
 			],
+			[
+				'sectionValue' => '30W',
+				# 2017-04-30 is a Sunday and the last of month, should be satisfied with the previous Friday
+				# This is a Monday
+				'dateString'   => '2017-04-28 14:36:21',
+			],
 		];
 	}
 }
