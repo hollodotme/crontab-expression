@@ -18,6 +18,53 @@ final class DayOfWeekSectionTest extends TestCase
 	 * @param string $sectionValue
 	 * @param string $dateString
 	 *
+	 * @dataProvider invalidDayOfWeekProvider
+	 */
+	public function testIsNotSatisfiedBy( string $sectionValue, string $dateString ) : void
+	{
+		$dayOfWeekSection = new DayOfWeekSection( $sectionValue );
+		$dateTime         = new \DateTimeImmutable( $dateString );
+
+		$this->assertFalse( $dayOfWeekSection->isSatisfiedBy( $dateTime ) );
+	}
+
+	public function invalidDayOfWeekProvider() : array
+	{
+		return [
+			[
+				'sectionValue' => '0',
+				'dateString'   => '2017-12-25 00:00:00',
+			],
+			[
+				'sectionValue' => '02',
+				'dateString'   => '2017-12-25 00:00:00',
+			],
+			[
+				'sectionValue' => 'mon/2',
+				'dateString'   => '2017-12-25 00:02:00',
+			],
+			# Range
+			[
+				'sectionValue' => '2-FRI',
+				'dateString'   => '2017-12-25 00:30:00',
+			],
+			# List
+			[
+				'sectionValue' => 'TUE,THU',
+				'dateString'   => '2017-12-29 00:20:00',
+			],
+			# Invalid value
+			[
+				'sectionValue' => '8',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+		];
+	}
+
+	/**
+	 * @param string $sectionValue
+	 * @param string $dateString
+	 *
 	 * @dataProvider dueHoursProvider
 	 */
 	public function testIsSatisfiedBy( string $sectionValue, string $dateString )

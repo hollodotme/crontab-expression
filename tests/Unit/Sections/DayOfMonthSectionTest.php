@@ -18,6 +18,58 @@ final class DayOfMonthSectionTest extends TestCase
 	 * @param string $sectionValue
 	 * @param string $dateString
 	 *
+	 * @dataProvider invalidDayOfMonthProvider
+	 */
+	public function testIsNotSatisfiedBy( string $sectionValue, string $dateString ) : void
+	{
+		$dayOfMonthSection = new DayOfMonthSection( $sectionValue );
+		$dateTime          = new \DateTimeImmutable( $dateString );
+
+		$this->assertFalse( $dayOfMonthSection->isSatisfiedBy( $dateTime ) );
+	}
+
+	public function invalidDayOfMonthProvider() : array
+	{
+		return [
+			[
+				'sectionValue' => '3',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+			[
+				'sectionValue' => '03',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+			[
+				'sectionValue' => '*/5',
+				'dateString'   => '2017-12-13 00:02:00',
+			],
+			# Range
+			[
+				'sectionValue' => '10-20',
+				'dateString'   => '2017-12-09 00:30:00',
+			],
+			# List
+			[
+				'sectionValue' => '10,30',
+				'dateString'   => '2017-12-13 00:20:00',
+			],
+			# Nearest weekday
+			[
+				'sectionValue' => '10W',
+				'dateString'   => '2017-12-24 00:20:00',
+			],
+			# Invalid value
+			[
+				'sectionValue' => '32',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+		];
+	}
+
+	/**
+	 * @param string $sectionValue
+	 * @param string $dateString
+	 *
 	 * @dataProvider dueHoursProvider
 	 */
 	public function testIsSatisfiedBy( string $sectionValue, string $dateString )

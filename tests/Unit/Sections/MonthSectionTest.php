@@ -18,12 +18,63 @@ final class MonthSectionTest extends TestCase
 	 * @param string $sectionValue
 	 * @param string $dateString
 	 *
+	 * @dataProvider invalidMonthProvider
+	 */
+	public function testIsNotSatisfiedBy( string $sectionValue, string $dateString ) : void
+	{
+		$monthSection = new MonthSection( $sectionValue );
+		$dateTime     = new \DateTimeImmutable( $dateString );
+
+		$this->assertFalse( $monthSection->isSatisfiedBy( $dateTime ) );
+	}
+
+	public function invalidMonthProvider() : array
+	{
+		return [
+			[
+				'sectionValue' => '3',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+			[
+				'sectionValue' => '03',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+			[
+				'sectionValue' => 'MAR',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+			[
+				'sectionValue' => 'mar',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+			# Range
+			[
+				'sectionValue' => 'mar-oct',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+			# List
+			[
+				'sectionValue' => 'Apr,Nov',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+			# Invalid value
+			[
+				'sectionValue' => 'April',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+		];
+	}
+
+	/**
+	 * @param string $sectionValue
+	 * @param string $dateString
+	 *
 	 * @dataProvider dueMonthsProvider
 	 */
 	public function testIsSatisfiedBy( string $sectionValue, string $dateString )
 	{
 		$monthSection = new MonthSection( $sectionValue );
-		$dateTime      = new \DateTimeImmutable( $dateString );
+		$dateTime     = new \DateTimeImmutable( $dateString );
 
 		$this->assertTrue( $monthSection->isSatisfiedBy( $dateTime ) );
 	}

@@ -14,6 +14,53 @@ final class MinuteSectionTest extends TestCase
 	 * @param string $sectionValue
 	 * @param string $dateString
 	 *
+	 * @dataProvider invalidMinutesProvider
+	 */
+	public function testIsNotSatisfiedBy( string $sectionValue, string $dateString ) : void
+	{
+		$minuteSection = new MinuteSection( $sectionValue );
+		$dateTime      = new \DateTimeImmutable( $dateString );
+
+		$this->assertFalse( $minuteSection->isSatisfiedBy( $dateTime ) );
+	}
+
+	public function invalidMinutesProvider() : array
+	{
+		return [
+			[
+				'sectionValue' => '3',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+			[
+				'sectionValue' => '03',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+			[
+				'sectionValue' => '*/3',
+				'dateString'   => '2017-12-13 00:02:00',
+			],
+			# Range
+			[
+				'sectionValue' => '10-20',
+				'dateString'   => '2017-12-13 00:30:00',
+			],
+			# List
+			[
+				'sectionValue' => '10,30',
+				'dateString'   => '2017-12-13 00:20:00',
+			],
+			# Invalid value
+			[
+				'sectionValue' => '61',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+		];
+	}
+
+	/**
+	 * @param string $sectionValue
+	 * @param string $dateString
+	 *
 	 * @dataProvider dueMinutesProvider
 	 */
 	public function testIsSatisfiedBy( string $sectionValue, string $dateString )

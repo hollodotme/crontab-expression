@@ -18,6 +18,53 @@ final class HourSectionTest extends TestCase
 	 * @param string $sectionValue
 	 * @param string $dateString
 	 *
+	 * @dataProvider invalidHoursProvider
+	 */
+	public function testIsNotSatisfiedBy( string $sectionValue, string $dateString ) : void
+	{
+		$hourSection = new HourSection( $sectionValue );
+		$dateTime    = new \DateTimeImmutable( $dateString );
+
+		$this->assertFalse( $hourSection->isSatisfiedBy( $dateTime ) );
+	}
+
+	public function invalidHoursProvider() : array
+	{
+		return [
+			[
+				'sectionValue' => '3',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+			[
+				'sectionValue' => '03',
+				'dateString'   => '2017-12-13 01:00:00',
+			],
+			[
+				'sectionValue' => '*/3',
+				'dateString'   => '2017-12-13 01:00:00',
+			],
+			# Range
+			[
+				'sectionValue' => '10-20',
+				'dateString'   => '2017-12-13 21:00:00',
+			],
+			# List
+			[
+				'sectionValue' => '6,12',
+				'dateString'   => '2017-12-13 07:20:00',
+			],
+			# Invalid value
+			[
+				'sectionValue' => '25',
+				'dateString'   => '2017-12-13 00:00:00',
+			],
+		];
+	}
+
+	/**
+	 * @param string $sectionValue
+	 * @param string $dateString
+	 *
 	 * @dataProvider dueHoursProvider
 	 */
 	public function testIsSatisfiedBy( string $sectionValue, string $dateString )
