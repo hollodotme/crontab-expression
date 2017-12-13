@@ -14,7 +14,7 @@ final class DayOfMonthSection extends AbstractSection
 	public function isSatisfiedBy( \DateTimeInterface $dateTime ) : bool
 	{
 		$checkValue = $this->replaceAsterisk( '1-31' );
-		$checkValue = str_replace( '?', '1-31', $checkValue );
+		$checkValue = $this->replaceQuestionMark( $checkValue );
 
 		$satisfied = false;
 
@@ -24,6 +24,11 @@ final class DayOfMonthSection extends AbstractSection
 		}
 
 		return $satisfied;
+	}
+
+	private function replaceQuestionMark( string $value ) : string
+	{
+		return str_replace( '?', '1-31', $value );
 	}
 
 	private function isListValueSatisfiedBy( string $listValue, \DateTimeInterface $dateTime ) : bool
@@ -77,7 +82,7 @@ final class DayOfMonthSection extends AbstractSection
 		$checkWeekDay = (int)$checkDate->format( 'w' );
 
 		# If day is Sunday and last of month, check for previous friday
-		if ($checkWeekDay === 0 && (int)$checkDate->format('t') === (int)$day)
+		if ( $checkWeekDay === 0 && (int)$checkDate->format( 't' ) === (int)$day )
 		{
 			$checkDate->modify( 'previous friday' );
 		}
