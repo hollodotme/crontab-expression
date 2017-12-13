@@ -48,6 +48,18 @@ abstract class AbstractSection implements ChecksSectionDueDate
 		return preg_replace( '#/\d+$#', '', $value );
 	}
 
+	final protected function getNumber( string $value ) : int
+	{
+		$parts = explode( '#', $value );
+
+		return (\count( $parts ) === 2) ? (int)$parts[1] : 0;
+	}
+
+	final protected function removeNumber( string $value ) : string
+	{
+		return preg_replace( '#\#\d+$#', '', $value );
+	}
+
 	final protected function isRange( string $value ) : bool
 	{
 		return (strpos( $value, '-' ) !== false);
