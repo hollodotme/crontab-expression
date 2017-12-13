@@ -31,7 +31,7 @@ final class MonthSection extends AbstractSection
 		$search  = [ 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC' ];
 		$replace = range( 1, 12 );
 
-		return str_replace( $search, $replace, $value );
+		return str_ireplace( $search, $replace, $value );
 	}
 
 	private function isListValueSatisfiedBy( string $listValue, \DateTimeInterface $dateTime ) : bool
