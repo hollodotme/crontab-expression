@@ -60,6 +60,10 @@ final class CrontabExpressionTest extends TestCase
 				'expression' => '* * ? * ?',
 				'dateString' => '2017-12-12 13:26:39',
 			],
+			[
+				'expression' => '10-20/2 6-23 * 9-12 5#2',
+				'dateString' => '2017-12-08 12:12:12',
+			],
 		];
 	}
 }
