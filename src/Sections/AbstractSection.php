@@ -21,11 +21,6 @@ abstract class AbstractSection implements ChecksSectionDueDate
 		$this->sectionValue = $sectionValue;
 	}
 
-	public function getSectionValue() : string
-	{
-		return $this->sectionValue;
-	}
-
 	final protected function replaceAsterisk( string $replacement ) : string
 	{
 		return str_replace( '*', $replacement, $this->sectionValue );
